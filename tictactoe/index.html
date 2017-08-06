@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TicTacToe</title>
+  <script src="tictactoe.js"> </script>
+  <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+  <style>
+    row {
+        width: 300px;
+        height: 100px;
+        display: flex;
+        background-color: black;
+        border: 1px solid red;
+    }
+    space {
+        width: 100px;
+        height: 100px;
+        background-color: gray;
+        display: inline-flex;
+        border: 1px solid red;
+        font-size: 80px;
+        text-align: center;
+        padding: 4px 20px 0px 20px;
+    }
+
+  </style>
+  <script>
+    $(document).ready(runNewGame);
+
+    function runNewGame() {
+      let g = new Game;
+      $("space").toArray().forEach(function(space, n) {
+        $(space).text("");
+        let row = Math.floor(n/3);
+        let column = n % 3;
+
+        $(space).on("click", function() {
+          if (!g.gameOver() && g.makeMove(`${row}${column}`)) {
+            $(space).text(g.previousPlayer());
+            if (g.gameOver()) {
+              setTimeout(function(g) {
+                alert(`The game is over. ${g.previousPlayer()} has won.`);
+                runNewGame();
+              }.bind(null, g), 0);
+            }
+          }
+        });
+      });
+    }
+  </script>
+</head>
+
+<body>
+<h1>Tic Tac Toe</h1>
+
+<row class="1">
+  <space> </space>
+  <space> </space>
+  <space> </space>
+</row>
+
+<row class="2">
+  <space> </space>
+  <space> </space>
+  <space> </space>
+</row>
+
+<row class="3">
+  <space> </space>
+  <space> </space>
+  <space> </space>
+</row>
+</body>
+</html>

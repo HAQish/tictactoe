@@ -7,29 +7,13 @@ function Game() {
   this.players = [X, O];
 }
 
-Game.prototype.start = function () {
-  this.welcomeMessage();
-  while (!this.gameOver()) {
-    this.takeTurn();
-    this.board.renderBoard();
-  }
-  this.gameOverMessage();
-}
-
-Game.prototype.welcomeMessage = function () {
-  alert("Welcome to TicTacToe.");
-}
-
-Game.prototype.takeTurn = function () {
-  while (true) {
-    let input = prompt("Input your desired coordinates.");
-    if (this.board.validMove(input)) {
-      this.board.makeMove(input, this.players[0]);
-      this.players.reverse();
-      return;
-    } else {
-      alert("Sorry, that's not a valid move! Please try again.");
-    }
+Game.prototype.makeMove = function(input) {
+  if (this.board.validMove(input)) {
+    this.board.makeMove(input, this.players[0]);
+    this.players.reverse();
+    return true;
+  } else {
+    return false;
   }
 }
 
@@ -37,8 +21,8 @@ Game.prototype.gameOver = function () {
   return this.board.hasWon();
 }
 
-Game.prototype.gameOverMessage = function () {
-  alert("The game is over. " + this.players[1] + " is victorious.");
+Game.prototype.previousPlayer = function () {
+  return this.players[1];
 }
 
 function Board() {
@@ -96,10 +80,4 @@ Board.prototype.validMove = function(input) {
 
 Board.prototype.hasWon = function() {
   return this.winByRow() || this.winByColumn() || this.winByDiagonal();
-}
-
-Board.prototype.renderBoard = function () {
-  alert(this.grid.map(function(row) {
-    return row.map(char => char === E ? '_' : char);
-  }).join("\n"));
 }
