@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+
+
+<head> <!-- the scripting, jquery, and styling goes here -->
+
+
+  <title>tic tac toe solo front end</title>
+  <script src="solo tictactoe ai.js"></script>
+  <script src="solo tictactoe backend.js"></script>
+  <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+  <style>
+    row {
+      width: 600px;
+      height: 200px;
+      border: 1px solid black;
+    }
+    space {
+      width: 200px;
+      height: 200px;
+      border: 1px solid black;
+      font-size: 100px;
+      text-align: center;
+    }
+  </style>
+  <script>
+    &(document).ready(runGameInPage);
+    function (runGameInPage) {
+      let gameInPage = new gamePace();
+      $("space").toArray().forEach
+    }
+
+
+    </script>
+
+
+</head>
+
+
+<body>       <!-- just the physical board below here -->
+<h1> tic tac toe </h1>
+
+<row> <space> </space>
+      <space> </space>
+      <space> </space>
+</row>
+
+<row> <space> </space>
+      <space> </space>
+      <space> </space>
+</row>
+
+<row> <space> </space>
+      <space> </space>
+      <space> </space>
+</row>
+
+</body>
+
+
+</html>
