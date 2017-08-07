@@ -17,6 +17,13 @@ Game.prototype.makeMove = function(input) {
   }
 }
 
+Game.prototype.makeAIMove = function () {
+  const ai = new AI(this.board, this.players[0]);
+  const move = ai.generateMove();
+  this.makeMove(move);
+  return move;
+}
+
 Game.prototype.gameOver = function () {
   return this.board.hasWon();
 }

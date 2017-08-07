@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>TicTacToe</title>
+  <script src="ai.js"></script>
   <script src="tictactoe.js"> </script>
   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
   <style>
@@ -42,10 +43,28 @@
                 alert(`The game is over. ${g.previousPlayer()} has won.`);
                 runNewGame();
               }.bind(null, g), 0);
+            } else {
+              setTimeout(function() {
+                makeAIMove(g);
+                if (g.gameOver()) {
+                  setTimeout(function(g) {
+                    alert(`The game is over. ${g.previousPlayer()} has won.`);
+                    runNewGame();
+                  }.bind(null, g), 0);
+                }
+              }, 500 + 800 * Math.random());
             }
           }
         });
       });
+    }
+
+    function makeAIMove(g) {
+      const move = g.makeAIMove();
+      const row = parseInt(move[0]);
+      const col = parseInt(move[1]);
+      const space = $("space")[row * 3 + col]
+      $(space).text(g.previousPlayer());
     }
   </script>
 </head>
