@@ -1,0 +1,96 @@
+// Declarations out of the way
+Let E = "E";   // [00 01 02]
+Let X = "X";   // [10 11 12] [ij]
+Let O = "O";   // [20 21 22]
+
+// First, to start with a new board object
+function alterAndCheckBoard() {
+  this.boardInAlterAndCheckBoard = [  //Creates board for checking functions to use
+    [E, E, E],
+    [E, E, E],
+    [E, E, E]
+  ];
+}
+
+// Then, the game object
+function gamePace() {
+  this.boardInGamePace = new alterAndCheckBoard();  //constructing the board object for game functions
+  this.players = [X, O]; // for determining which mark to use because it will be players[0]
+}
+
+// here are the functions that actually advance the game and change the place
+
+//this actually makes the move once it passes the validity check and then switches players
+gamePace.prototype.actuallyMakeMove = function(coordinates) {
+  if (this.boardInGamePace.checkIfMoveIsValid(coordinates)) {
+    this.boardInGamePace.alterBoard(coordinates, this.players[0]);
+    this.players.reverse();
+  }
+}
+
+
+
+
+// Now, the functions to alter and check the board
+// First, the checking functions by row, column, and diagonal
+
+//this row function should check, for each row, whether the columns are the same and !E
+alterAndCheckBoard.prototype.checkIfRowTriple = function() {
+  for (let i = 0; i < 3; i++) {
+    if (this.boardInAlterAndCheckBoard[i][0] === this.boardInAlterAndCheckBoard[i][1] &&
+      this.boardInAlterAndCheckBoard[i][1] === this.boardInAlterAndCheckBoard[i][2] &&
+      this.boardInAlterAndCheckBoard[i][2] !== E) {
+        return true;
+    }
+  }
+  return false;
+}
+
+//this column function should transpose and then repeat the row check
+//but first it has to recreate the board and then transpose that new board so the old board isn't tarnished
+alterAndCheckBoard.prototype.checkIfColumnTriple = function() {
+  let transposedBoardForColumnTripleCheck = this.boardInAlterAndCheckBoard.map(i => i.slice());
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      transposedBoardForColumnTripleCheck[i][j] - this.boardInAlterAndCheckBoard[j][i];
+    }
+  }
+  for (let i = 0; i < 3; i++) {
+    if (transposedBoardForColumnTripleCheck[i][0] === transposedBoardForColumnTripleCheck[i][1] &&
+      transposedBoardForColumnTripleCheck[i][1] === transposedBoardForColumnTripleCheck[i][2] &&
+      transposedBoardForColumnTripleCheck[i][2] !== E) {
+        return true;
+    }
+  }
+  return false;
+}
+
+// this diagonal function should check to see if there is a triple diagonally
+alterAndCheckBoard.prototype.checkIfDiagonalTriple = function() {
+  if (this.boardInAlterAndCheckBoard[0][0] === this.boardInAlterAndCheckBoard[1][1] &&
+    this.boardInAlterAndCheckBoard[1][1] === this.boardInAlterAndCheckBoard[2][2] &&
+    this.boardInAlterAndCheckBoard[2][2] !== E) {
+      return true;
+    } elseif (this.boardInAlterAndCheckBoard[0][2] === this.boardInAlterAndCheckBoard[1][1] &&
+    this.boardInAlterAndCheckBoard[1][1] === [2][0] &&
+    this.boardInAlterAndCheckBoard[2][0] !== E) {
+      return true;
+    } else {
+      return false;
+    }
+}
+
+//this alter function will actually alter the board and is the only function to do so, and therefore returns nothing
+alterAndCheckBoard.prototype.alterBoard = function(coordinates, character) {
+  this.boardInAlterAndCheckBoard[coordinates[0]][coordinates[1]] = character;
+}
+
+//validity check, requires inputted coordinates
+alterAndCheckBoard.prototype.checkIfMoveIsValid = function(coordinates) {
+  return this.boardInAlterAndCheckBoard[coordinates[0]][coordinates[1]] === E;
+}
+
+//checking to see if the game is over because a triplecheck passed
+alterAndCheckBoard.prototype.checkIfGameHasBeenWon = function() {
+  return this.checkIfDiagonalTriple() || this.checkIfColumnTriple() || this.checkIfRowTriple();
+}
